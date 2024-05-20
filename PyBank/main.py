@@ -8,8 +8,6 @@ pwd = os.path.dirname(pwf)
 #Specifying the file to read to
 csvPath = os.path.join(pwd, "Resources","budget_data.csv")
 
-print ("Financial Analysis")
-print ("---------------------------")
 
 dateTotal = 0 
 profit_losesTotal = 0
@@ -19,7 +17,7 @@ Changes = []
 Dates = []
 
 
-## Open the file using "read" mode. Specify the variable to hold the contents
+# Open the file using "read" mode. Specify the variable to hold the contents
 with open(csvPath, 'r') as csvFile:
     csvReader = csv.reader(csvFile, delimiter=',') 
 
@@ -65,9 +63,22 @@ greatestDecrease =min(Changes)
 # Find the index of the greatest increase and decrease
 index_of_greatest_increase = Changes.index(greatestIncrease)+1
 index_of_greatest_decrease = Changes.index(greatestDecrease)+1
-               
-print ("Total Months :" ,dateTotal)   
-print ("Total : $" , profit_losesTotal)        
-print ("Average Change : $" , round(changeTotal/(dateTotal-1),2))
-print("Greatest Increase in Profits:", Dates[index_of_greatest_increase], "($", greatestIncrease, ")")
-print("Greatest Decrease in Profits:", Dates[index_of_greatest_decrease], "($", greatestDecrease, ")")
+
+# Prepare financial analysis results
+financial_analysis = (
+    "Financial Analysis\n"
+    "---------------------------\n"
+    f"Total Months: {dateTotal}\n"
+    f"Total: ${profit_losesTotal}\n"
+    f"Average Change: ${round(changeTotal/(dateTotal-1), 2)}\n"
+    f"Greatest Increase in Profits: {Dates[index_of_greatest_increase]} (${greatestIncrease})\n"
+    f"Greatest Decrease in Profits: {Dates[index_of_greatest_decrease]} (${greatestDecrease})\n"
+)
+
+# Print financial analysis results in the terminal
+print(financial_analysis)
+
+# Export the results to a text file
+output_path = os.path.join(pwd, "analysis","financial_analysis.txt")
+with open(output_path, 'w') as text_file:
+    text_file.write(financial_analysis)

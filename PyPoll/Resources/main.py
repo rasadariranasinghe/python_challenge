@@ -36,17 +36,32 @@ with open(csvPath, 'r') as csvFile:
 totalVotes = sum(Candidates.values())
 
 
-print("Election Results")
-print("------------------------------------")
-print("Total Votes:", totalVotes)
-print("------------------------------------")
+# Prepare election results for printing and writing to file
+election_results = (
+    "Election Results\n"
+    "------------------------------------\n"
+    f"Total Votes: {totalVotes}\n"
+    "------------------------------------\n"
+)
+
 for candidate, votes in Candidates.items():
-    votesPercentage = (round(votes/totalVotes*100,3))
-    print (f"{candidate} : {votesPercentage}% ({votes})")
-     # Check if the current candidate has more votes than the current winner
+    votesPercentage = round(votes / totalVotes * 100, 3)
+    election_results += f"{candidate}: {votesPercentage}% ({votes})\n"
+    # Check if the current candidate has more votes than the current winner
     if votes > winner_votes:
         winner_name = candidate
         winner_votes = votes
-print("------------------------------------")
-print (f"Winner: {winner_name}")
-print("------------------------------------")
+
+election_results += (
+    "------------------------------------\n"
+    f"Winner: {winner_name}\n"
+    "------------------------------------\n"
+)
+
+# Print election results in the terminal
+print(election_results)
+
+# Export the results to a text file
+output_path = os.path.join(pwd, "analysis","election_results.txt")
+with open(output_path, 'w') as text_file:
+    text_file.write(election_results)
